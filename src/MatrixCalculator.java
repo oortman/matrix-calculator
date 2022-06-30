@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -38,10 +39,41 @@ public class MatrixCalculator {
     }
 
     /**
+     * Multiplies a matrix by a numerical value (scalar).
+     * @param matrix Matrix to use in multiplication
+     * @param scalar Numerical value to be used in multiplication
+     * @return The resulting matrix of the multiplication
+     */
+    private static double[][] multiplyByScalar(double[][] matrix, double scalar) {
+        double[][] result = new double[matrix.length][matrix[0].length];  // Resulting matrix
+
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[0].length; col++) {
+                result[row][col] = scalar * matrix[row][col];
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Prints matrix to console.
+     * @param matrix Matrix to be printed
+     */
+    private static void printMatrix(double[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            System.out.println(Arrays.toString(matrix[i]));
+        }
+    }
+
+    /**
      * Main method for the Matrix Calculator program.
      * @param args Not used.
      */
     public static void main(String[] args) {
         createMatrix("C:\\Users\\aoort\\Desktop\\SampleMatrix1.txt", 2, 2);
+        printMatrix(matrix);
+        System.out.println();
+        printMatrix(multiplyByScalar(matrix, -3));
     }
 }
