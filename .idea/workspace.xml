@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ea672f16-798b-4a75-9484-dcb9a015dba4" name="Changes" comment="Created MatrixCalculator class, and added a method for creating a matrix from a text file.">
+    <list default="true" id="ea672f16-798b-4a75-9484-dcb9a015dba4" name="Changes" comment="Added method for printing a matrix, and added a method for muliplying a matrix by a scalar.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MatrixCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MatrixCalculator.java" afterDir="false" />
     </list>
@@ -68,7 +68,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656629978331</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added method for printing a matrix, and added a method for muliplying a matrix by a scalar.">
+      <created>1656631266368</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1656631266368</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -84,6 +91,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created MatrixCalculator class, and added a method for creating a matrix from a text file." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created MatrixCalculator class, and added a method for creating a matrix from a text file." />
+    <MESSAGE value="Added method for printing a matrix, and added a method for muliplying a matrix by a scalar." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added method for printing a matrix, and added a method for muliplying a matrix by a scalar." />
   </component>
 </project>

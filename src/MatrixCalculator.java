@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -10,7 +12,7 @@ import java.util.Scanner;
  * @author Alec Oortman
  */
 public class MatrixCalculator {
-    private static double[][] matrix;  // 2D array that represents a matrix
+    private static ArrayList<double[][]> listOfMatrices;
 
     /**
      * Creates a matrix based on the specified file.
@@ -19,13 +21,13 @@ public class MatrixCalculator {
      * @param cols Number of columns in the matrix
      */
     private static void createMatrix(String filePath, int rows, int cols) {
-        /* Tries to create a File from the specified path and creates a Scanner to read it.
+        /* Tries creating a File from the specified path and creates a Scanner to read it.
          * Catches exception if file is not found. */
         try {
             File file = new File(filePath);  // Text file that corresponds to specified file path
             Scanner fileScanner = new Scanner(file);  // Scanner for reading file
 
-            matrix = new double[rows][cols];
+            double[][] matrix = new double[rows][cols];
 
             // Populates matrix with values from file
             for (int i = 0; i < rows; i++) {
@@ -33,6 +35,8 @@ public class MatrixCalculator {
                     matrix[i][j] = fileScanner.nextDouble();
                 }
             }
+
+            listOfMatrices.add(matrix);
         } catch (FileNotFoundException e) {
             System.out.println("File not found. Try entering another file path.");
         }
@@ -57,6 +61,57 @@ public class MatrixCalculator {
     }
 
     /**
+     * Multiplies a matrix by another matrix.
+     * Note: Order matters. Matrix A times Matrix B does not have the same product as Matrix B times
+     * Matrix A.
+     * @param matrixA The first matrix in the multiplication
+     * @param matrixB The second matrix in the multiplication
+     * @return The matrix product of the multiplication
+     */
+    private static double[][] multiplyByMatrix(double[][] matrixA, double[][] matrixB) {
+        double[][] product = new double[matrixA.length][matrixB[0].length];
+
+        // Finds each entry in the matrix product by calling helper method findEntry
+        for (int i = 0; i < product.length; i++) {
+            for (int j = 0; j < product[0].length; j++) {
+                product[i][j] = findEntry(matrixA, matrixB, i, j);
+            }
+        }
+
+        return product;
+    }
+
+    /**
+     * Calculates the value for a specific entry of a matrix product.
+     * @param matrixA The first matrix in the multiplication
+     * @param matrixB The second matrix in the multiplication
+     * @param row The row of the first matrix used in entry calculation
+     * @param col The column of the second matrix used in entry calculation
+     * @return
+     */
+    private static double findEntry(double[][] matrixA, double[][] matrixB, int row, int col) {
+        double sum = 0;
+
+        for (int i = 0; i < matrixB.length; i++) {
+            sum += matrixA[row][i] * matrixB[i][col];
+        }
+
+        return sum;
+    }
+
+    /**
+     * Checks if two matrices can be multiplied.
+     * The number of columns in the first matrix must be equal to the number of rows in the second
+     * matrix in order for them to be multiplied.
+     * @param matrixA The first matrix to be used in matrix multiplication
+     * @param matrixB The second matrix to be used in matrix multiplication
+     * @return True if the matrices can be multiplied, false otherwise.
+     */
+    private static boolean canBeMultiplied(double[][] matrixA, double[][] matrixB) {
+        return matrixA[0].length == matrixB.length;
+    }
+
+    /**
      * Prints matrix to console.
      * @param matrix Matrix to be printed
      */
@@ -71,9 +126,26 @@ public class MatrixCalculator {
      * @param args Not used.
      */
     public static void main(String[] args) {
-        createMatrix("C:\\Users\\aoort\\Desktop\\SampleMatrix1.txt", 2, 2);
-        printMatrix(matrix);
+        listOfMatrices = new ArrayList<>();
+        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\2x3_Matrix.txt", 2, 3);
+        printMatrix(listOfMatrices.get(0));
         System.out.println();
-        printMatrix(multiplyByScalar(matrix, -3));
+        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\2x2_Matrix.txt", 2, 2);
+        printMatrix(listOfMatrices.get(1));
+        System.out.println();
+
+        if (canBeMultiplied(listOfMatrices.get(1), listOfMatrices.get(0))) {
+            printMatrix(multiplyByMatrix(listOfMatrices.get(1), listOfMatrices.get(0)));
+        } else {
+            System.out.println("These matrices cannot be multiplied");
+        }
+
+        System.out.println();
+
+        if (canBeMultiplied(listOfMatrices.get(0), listOfMatrices.get(1))) {
+            printMatrix(multiplyByMatrix(listOfMatrices.get(1), listOfMatrices.get(0)));
+        } else {
+            System.out.println("These matrices cannot be multiplied");
+        }
     }
 }
