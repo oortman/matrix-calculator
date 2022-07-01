@@ -1,6 +1,5 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -43,8 +42,8 @@ public class MatrixCalculator {
     }
 
     /**
-     * Multiplies a matrix by a numerical value (scalar).
-     * @param matrix Matrix to use in multiplication
+     * Finds the product of a matrix and a numerical value (scalar).
+     * @param matrix Matrix to be used in multiplication
      * @param scalar Numerical value to be used in multiplication
      * @return The resulting matrix of the multiplication
      */
@@ -61,12 +60,12 @@ public class MatrixCalculator {
     }
 
     /**
-     * Multiplies a matrix by another matrix.
+     * Finds the product of two matrices.
      * Note: Order matters. Matrix A times Matrix B does not have the same product as Matrix B times
      * Matrix A.
      * @param matrixA The first matrix in the multiplication
      * @param matrixB The second matrix in the multiplication
-     * @return The matrix product of the multiplication
+     * @return The product of the two matrices
      */
     private static double[][] multiplyByMatrix(double[][] matrixA, double[][] matrixB) {
         double[][] product = new double[matrixA.length][matrixB[0].length];
@@ -87,16 +86,16 @@ public class MatrixCalculator {
      * @param matrixB The second matrix in the multiplication
      * @param row The row of the first matrix used in entry calculation
      * @param col The column of the second matrix used in entry calculation
-     * @return
+     * @return The calculated value for the entry
      */
     private static double findEntry(double[][] matrixA, double[][] matrixB, int row, int col) {
-        double sum = 0;
+        double entryValue = 0;
 
         for (int i = 0; i < matrixB.length; i++) {
-            sum += matrixA[row][i] * matrixB[i][col];
+            entryValue += matrixA[row][i] * matrixB[i][col];
         }
 
-        return sum;
+        return entryValue;
     }
 
     /**
@@ -112,12 +111,41 @@ public class MatrixCalculator {
     }
 
     /**
-     * Prints matrix to console.
+     * Finds the sum of two matrices.
+     * @param matrixA The first matrix to be used in matrix addition
+     * @param matrixB The second matrix to be used in matrix addition
+     * @return The sum of the two matrices
+     */
+    private static double[][] addMatrices(double[][] matrixA, double[][] matrixB) {
+        double[][] sum = new double[matrixA.length][matrixA[0].length];
+
+        for (int i = 0; i < matrixA.length; i++) {
+            for (int j = 0; j < matrixA[0].length; j++) {
+                sum[i][j] = matrixA[i][j] + matrixB[i][j];
+            }
+        }
+
+        return sum;
+    }
+
+    /**
+     * Checks if two matrices can be added.
+     * Matrices must have the same dimensions (same number of rows and columns) to be added.
+     * @param matrixA The first matrix to be used in matrix addition
+     * @param matrixB The second matrix to be used in matrix addition
+     * @return True if the matrices can be added, false otherwise.
+     */
+    private static boolean canBeAdded(double[][] matrixA, double[][] matrixB) {
+        return matrixA.length == matrixB.length && matrixA[0].length == matrixB[0].length;
+    }
+
+    /**
+     * Prints a matrix to the console.
      * @param matrix Matrix to be printed
      */
     private static void printMatrix(double[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            System.out.println(Arrays.toString(matrix[i]));
+        for (double[] row : matrix) {
+            System.out.println(Arrays.toString(row));
         }
     }
 
@@ -147,5 +175,9 @@ public class MatrixCalculator {
         } else {
             System.out.println("These matrices cannot be multiplied");
         }
+
+        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\3x3_Matrix1.txt", 3, 3);
+        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\3x3_Matrix2.txt", 3, 3);
+        printMatrix(addMatrices(listOfMatrices.get(2), listOfMatrices.get(3)));
     }
 }
