@@ -6,7 +6,10 @@ import java.util.Scanner;
 
 /**
  * This is the main class for my Matrix Calculator program.
- * The Matrix Calculator can be used to perform several operations on up to matrices.
+ * The Matrix Calculator can be used to perform the following operations:
+ * 1. Matrix addition
+ * 2. Matrix multiplication
+ * 3. Scalar multiplication
  *
  * @author Alec Oortman
  */
@@ -111,17 +114,25 @@ public class MatrixCalculator {
     }
 
     /**
-     * Finds the sum of two matrices.
-     * @param matrixA The first matrix to be used in matrix addition
-     * @param matrixB The second matrix to be used in matrix addition
-     * @return The sum of the two matrices
+     * Finds the sum or difference of two matrices by adding or subtracting them.
+     * @param matrixA The first matrix to be used in calculation
+     * @param matrixB The second matrix to be used in calculation
+     * @param subtract True if subtracting, false if adding
+     * @return The sum/difference of the two matrices
      */
-    private static double[][] addMatrices(double[][] matrixA, double[][] matrixB) {
+    private static double[][] addSubtractMatrices(double[][] matrixA,
+                                                  double[][] matrixB,
+                                                  boolean subtract) {
         double[][] sum = new double[matrixA.length][matrixA[0].length];
 
         for (int i = 0; i < matrixA.length; i++) {
             for (int j = 0; j < matrixA[0].length; j++) {
-                sum[i][j] = matrixA[i][j] + matrixB[i][j];
+                // Negates the entry in the second matrix if performing subtraction
+                if (subtract) {
+                    sum[i][j] = matrixA[i][j] + matrixB[i][j] * -1;
+                } else {
+                    sum[i][j] = matrixA[i][j] + matrixB[i][j];
+                }
             }
         }
 
@@ -129,13 +140,13 @@ public class MatrixCalculator {
     }
 
     /**
-     * Checks if two matrices can be added.
-     * Matrices must have the same dimensions (same number of rows and columns) to be added.
+     * Checks if two matrices can be added/subtracted.
+     * Matrices must have the same dimensions to be added/subtracted.
      * @param matrixA The first matrix to be used in matrix addition
-     * @param matrixB The second matrix to be used in matrix addition
+     * @param matrixB The second matrix to be used in matrix addition/subtraction
      * @return True if the matrices can be added, false otherwise.
      */
-    private static boolean canBeAdded(double[][] matrixA, double[][] matrixB) {
+    private static boolean canAddAndSubtract(double[][] matrixA, double[][] matrixB) {
         return matrixA.length == matrixB.length && matrixA[0].length == matrixB[0].length;
     }
 
@@ -178,6 +189,8 @@ public class MatrixCalculator {
 
         createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\3x3_Matrix1.txt", 3, 3);
         createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\3x3_Matrix2.txt", 3, 3);
-        printMatrix(addMatrices(listOfMatrices.get(2), listOfMatrices.get(3)));
+        printMatrix(addSubtractMatrices(listOfMatrices.get(2), listOfMatrices.get(3), true));
+        System.out.println();
+        printMatrix(addSubtractMatrices(listOfMatrices.get(2), listOfMatrices.get(3), false));
     }
 }
