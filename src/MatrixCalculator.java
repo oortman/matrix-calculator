@@ -7,7 +7,7 @@ import java.util.Scanner;
 /**
  * This is the main class for my Matrix Calculator program.
  * The Matrix Calculator can be used to perform the following operations:
- * 1. Matrix addition
+ * 1. Matrix addition and subtraction
  * 2. Matrix multiplication
  * 3. Scalar multiplication
  *
@@ -151,6 +151,74 @@ public class MatrixCalculator {
     }
 
     /**
+     * Finds the determinant of any square matrix recursively, using Laplace expansion.
+     * Note: Only square matrices have determinants.
+     * @param matrix The matrix used in determinant calculation
+     * @return The determinant of the matrix
+     */
+    private static double findDeterminant(double[][] matrix) {
+        double D = 0; // Determinant of the matrix
+        int n = matrix.length; // Dimension of the matrix (number of rows/columns)
+
+        // When the matrix is 1x1, the determinant is the same as the single value in the matrix
+        if (n == 1) {
+            return matrix[0][0];
+        }
+
+        // When the matrix is 2x2
+        if (n == 2) {
+            return (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
+        }
+
+        double[][] subMatrix; // Sub-matrix used in calculation of minor (cofactor))
+        int sign = 1; // The sign to be applied to each minor (cofactor) in the expansion
+
+        // Finds each minor in the expansion and adds/subtracts it to/from the determinant
+        for (int i = 0; i < n; i++) {
+            subMatrix = createSubMatrix(matrix, n, i);
+            D += sign * matrix[0][i] * findDeterminant(subMatrix);
+            sign *= -1;
+        }
+
+        return D;
+    }
+
+    /**
+     * Generates a sub-matrix for use in finding a minor of the Laplace expansion.
+     * @param matrix The original matrix that the sub-matrix is derived from
+     * @param n The dimension of the original matrix (number of rows/columns)
+     * @param scalarCol The column index of the entry used as a scalar in calculating minor
+     * @return The derived sub-matrix
+     */
+    private static double[][] createSubMatrix(double[][] matrix, int n, int scalarCol) {
+        double[][] subMatrix = new double[n-1][n-1];
+
+        // Determines the entries for this sub-matrix
+        for (int i = 1; i < n; i++) {
+            int subCol = 0; // The column index of the sub-matrix
+
+            // Gets the entry values that are not in the same column or row as the scalar
+            for (int j = 0; j < n; j++) {
+                if (j != scalarCol) {
+                    subMatrix[i-1][subCol] = matrix[i][j];
+                    subCol++;
+                }
+            }
+        }
+
+        return subMatrix;
+    }
+
+    /**
+     * Checks if the specified matrix is square.
+     * @param matrix Matrix to be checked
+     * @return True if the matrix is square, false otherwise.
+     */
+    private static boolean isSquare(double[][] matrix) {
+        return matrix.length == matrix[0].length;
+    }
+
+    /**
      * Prints a matrix to the console.
      * @param matrix Matrix to be printed
      */
@@ -166,31 +234,8 @@ public class MatrixCalculator {
      */
     public static void main(String[] args) {
         listOfMatrices = new ArrayList<>();
-        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\2x3_Matrix.txt", 2, 3);
+        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\8x8_Matrix.txt", 6, 6);
         printMatrix(listOfMatrices.get(0));
-        System.out.println();
-        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\2x2_Matrix.txt", 2, 2);
-        printMatrix(listOfMatrices.get(1));
-        System.out.println();
-
-        if (canBeMultiplied(listOfMatrices.get(1), listOfMatrices.get(0))) {
-            printMatrix(multiplyByMatrix(listOfMatrices.get(1), listOfMatrices.get(0)));
-        } else {
-            System.out.println("These matrices cannot be multiplied");
-        }
-
-        System.out.println();
-
-        if (canBeMultiplied(listOfMatrices.get(0), listOfMatrices.get(1))) {
-            printMatrix(multiplyByMatrix(listOfMatrices.get(1), listOfMatrices.get(0)));
-        } else {
-            System.out.println("These matrices cannot be multiplied");
-        }
-
-        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\3x3_Matrix1.txt", 3, 3);
-        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\3x3_Matrix2.txt", 3, 3);
-        printMatrix(addSubtractMatrices(listOfMatrices.get(2), listOfMatrices.get(3), true));
-        System.out.println();
-        printMatrix(addSubtractMatrices(listOfMatrices.get(2), listOfMatrices.get(3), false));
+        System.out.println(findDeterminant(listOfMatrices.get(0)));
     }
 }
