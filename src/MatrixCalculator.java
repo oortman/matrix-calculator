@@ -10,6 +10,7 @@ import java.util.Scanner;
  * 1. Matrix addition and subtraction
  * 2. Matrix multiplication
  * 3. Scalar multiplication
+ * 4. Determinant calculation
  *
  * @author Alec Oortman
  */
@@ -23,8 +24,6 @@ public class MatrixCalculator {
      * @param cols Number of columns in the matrix
      */
     private static void createMatrix(String filePath, int rows, int cols) {
-        /* Tries creating a File from the specified path and creates a Scanner to read it.
-         * Catches exception if file is not found. */
         try {
             File file = new File(filePath);  // Text file that corresponds to specified file path
             Scanner fileScanner = new Scanner(file);  // Scanner for reading file
@@ -219,6 +218,23 @@ public class MatrixCalculator {
     }
 
     /**
+     * Finds the transpose of a matrix.
+     * @param matrix Matrix to be transposed
+     * @return The transpose of the matrix
+     */
+    private static double[][] findTranspose(double[][] matrix) {
+        double[][] transpose = new double[matrix[0].length][matrix.length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                transpose[j][i] = matrix[i][j];
+            }
+        }
+
+        return transpose;
+    }
+
+    /**
      * Prints a matrix to the console.
      * @param matrix Matrix to be printed
      */
@@ -234,8 +250,8 @@ public class MatrixCalculator {
      */
     public static void main(String[] args) {
         listOfMatrices = new ArrayList<>();
-        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\8x8_Matrix.txt", 6, 6);
+        createMatrix("C:\\Users\\aoort\\Desktop\\Matrices\\2x3_Matrix.txt", 2, 3);
         printMatrix(listOfMatrices.get(0));
-        System.out.println(findDeterminant(listOfMatrices.get(0)));
+        printMatrix(findTranspose(listOfMatrices.get(0)));
     }
 }
